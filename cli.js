@@ -14,9 +14,8 @@ program
   .command('add')
   .description('add a task')
   .action((x,{args}) => {
-    // const xx = args.slice(0,-1) 
-    add(args)
-    // console.log(args);
+    const title = args.join('')
+    add(title)
   });
 program
   .command('clear')
