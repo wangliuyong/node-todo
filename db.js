@@ -30,8 +30,8 @@ module.exports.read = (path = homePath) => {
 
 /**
  * @description 将内容写入文件
- * @param {Array} list 
- * @param {homePath} path 
+ * @param {Array} list
+ * @param {homePath} path
  * @returns Promise
  */
 module.exports.write = (list, path = homePath) => {
