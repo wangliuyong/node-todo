@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 // home路径，兼容macOS  windows
 const homePath = process.env.HOME || require("os").homedir();
-// 构造存储数据的文件
+// 构造存储数据的文件路径
 const dbPath = path.join(homePath, ".todo");
 
 /**
@@ -14,16 +14,14 @@ module.exports.read = (path = homePath) => {
   return new Promise((resolve, reject) => {
     fs.readFile(dbPath, { flag: "a+" }, async (error, data) => {
       if (error) {
-        reject(error);
+        return reject(error);
       } else {
         let list;
         try {
           list = JSON.parse(data.toString());
-          console.log(1,list)
         } catch (error) {
           list = [];
         }
-        // console.log(2,list)
         resolve(list);
       }
     });
@@ -41,7 +39,7 @@ module.exports.write = (list, path = homePath) => {
     const strings = JSON.stringify(list);
     fs.writeFile(dbPath, strings, (error) => {
       if (error) {
-        reject(error);
+        return reject(error);
       } else {
         resolve();
       }
