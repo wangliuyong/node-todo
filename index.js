@@ -8,3 +8,7 @@ module.exports.add = async (title) => {
   // 存储任务
   db.write(list);
 };
+
+module.exports.clear = async()=> {
+  await db.write([]);
+}
