@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-// 参考：【commander】https://github.com/tj/commander.js
 const api = require('./index.js')
 const { program } = require('commander');
 const  pkg = require('./package.json')
@@ -34,14 +33,14 @@ program
 
 program
   .command('show')
-  .description('show all operate')
+  .description('show all task')
   .action(() => {
     api.showAll()
   });
 
 program
   .command('-')
-  .description('show all task')
+  .description('show all operate')
   .action(() => {
     api.operate()
   });
