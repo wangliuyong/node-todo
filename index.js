@@ -39,15 +39,72 @@ module.exports.operate = async () => {
         message: "请选择一个选项：",
         name: "index",
         default: "index",
-        choices: [{name:'退出', value:'-1'},...list.map((task, index) => {
-          return {
-            name: `${task.done ? "[x]" : "[_]"} ${index} ${task.title}`,
-            value: index,
-          };
-        }),{name:'添加一个任务',value:'-2'}],
+        choices: [
+          { name: "退出", value: "-1" },
+          ...list.map((task, index) => {
+            return {
+              name: `${task.done ? "[x]" : "[_]"} ${index} ${task.title}`,
+              value: index,
+            };
+          }),
+          { name: "添加一个任务", value: "-2" },
+        ],
       },
     ])
     .then((answer) => {
       console.log(answer);
+      const index = parseInt(answer.index);
+      if (index >= 0) {
+        inquirer
+          .prompt([
+            {
+              type: "list",
+              message: "请选择一个操作",
+              name: "action",
+              choices: [
+                { name: "退出", value: "quit" },
+                { name: "已完成", value: "done" },
+                { name: "未完成", value: "unDone" },
+                { name: "改标题", value: "updateTitle" },
+                { name: "删除", value: "remove" },
+              ],
+            },
+          ])
+          .then((answer) => {
+            console.log(answer);
+
+            switch (answer.action) {
+              case 'done':
+                list[index].done = true;
+                db.write(list);
+                break;
+              case 'unDone':
+                list[index].done = false;
+                db.write(list);
+                break;
+              case 'updateTitle':
+                inquirer
+                  .prompt([
+                    {
+                      type: "input",
+                      message: "输入新的标题：",
+                      name: "title",
+                      default: list[index].title,
+                    },
+                  ])
+                  .then((answer) => {
+                    list[index].title = answer.title;
+                    db.write(list);
+                  });
+                break;
+              case 'remove':
+                list.splice(index,1)
+                db.write(list);
+                break;
+              default:
+                break;
+            }
+          });
+      }
     });
 };
