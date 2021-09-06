@@ -1,4 +1,4 @@
-# node-todo
+# node-task-todo 一个简易的任务清单管理工具 
 
 # 安装
 `
