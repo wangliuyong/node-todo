@@ -3,8 +3,10 @@
 // 参考：【commander】https://github.com/tj/commander.js
 const api = require('./index.js')
 const { program } = require('commander');
-program.version('0.0.1');
+const  pkg = require('./package.json')
 
+
+program.version(pkg.version);
 program
   .option('-d, --debug', 'output extra debugging')
 
