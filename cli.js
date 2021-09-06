@@ -30,9 +30,16 @@ program
 
 program
   .command('show')
-  .description('show all task')
+  .description('show all operate')
   .action(() => {
     api.showAll()
+  });
+
+program
+  .command('-')
+  .description('show all task')
+  .action(() => {
+    api.operate()
   });
 
 program.parse(process.argv);
