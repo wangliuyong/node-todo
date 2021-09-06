@@ -1,5 +1,9 @@
 const db = require("./db.js");
 
+/**
+ * 添加任务
+ * @param {string} title 任务名称
+ */
 module.exports.add = async (title) => {
   // 读取之前的任务
   const list = await db.read();
@@ -9,10 +13,20 @@ module.exports.add = async (title) => {
   db.write(list);
 };
 
+
+/**
+ * 清除所有任务
+ */
 module.exports.clear = async()=> {
   await db.write([]);
 }
+
+/**
+ * 展示所有任务
+ */
 module.exports.showAll = async()=> {
-  // await db.write([]);
-  console.log('show all')
+  const list = await db.read()
+  list.forEach((task,index) => {
+    console.log(`${task.done ? '[x]': '[_]'}  ${task.title}-`)
+  });
 }
