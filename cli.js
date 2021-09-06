@@ -24,9 +24,18 @@ program
     })
   });
 
-program.parse(process.argv);
+program
+  .command('-')
+  .description('add a task')
+  .action(() => {
+    // const title = args.join('')
+    // api.add(title)
+  });
 
+program.parse(process.argv);
 
 if(process.argv.length === 2){
   api.showAll()
 }
+
+console.log(process.argv)
