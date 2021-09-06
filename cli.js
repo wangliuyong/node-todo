@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // 参考：【commander】https://github.com/tj/commander.js
 const api = require('./index.js')
 const { program } = require('commander');
