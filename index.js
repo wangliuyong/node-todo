@@ -47,7 +47,7 @@ module.exports.operate = async () => {
               value: index,
             };
           }),
-          { name: "添加一个任务", value: "-2" },
+          { name: "+添加一个任务", value: "-2" },
         ],
       },
     ])
@@ -74,15 +74,15 @@ module.exports.operate = async () => {
             console.log(answer);
 
             switch (answer.action) {
-              case 'done':
+              case "done":
                 list[index].done = true;
                 db.write(list);
                 break;
-              case 'unDone':
+              case "unDone":
                 list[index].done = false;
                 db.write(list);
                 break;
-              case 'updateTitle':
+              case "updateTitle":
                 inquirer
                   .prompt([
                     {
@@ -97,13 +97,31 @@ module.exports.operate = async () => {
                     db.write(list);
                   });
                 break;
-              case 'remove':
-                list.splice(index,1)
+              case "remove":
+                list.splice(index, 1);
                 db.write(list);
                 break;
               default:
                 break;
             }
+          });
+      }
+
+      if (index === -2) {
+        inquirer
+          .prompt([
+            {
+              type: "input",
+              message: "输入任务名称：",
+              name: "title"
+            },
+          ])
+          .then((answer) => {
+            list.push({
+              title: answer.title,
+              done: false,
+            });
+            db.write(list);
           });
       }
     });
