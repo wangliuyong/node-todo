@@ -30,8 +30,68 @@ module.exports.showAll = async () => {
   });
 };
 
+/**
+ * 所有操作
+ */
 module.exports.operate = async () => {
   const list = await db.read();
+  // print  task
+  printTask(list);
+};
+
+function askOperate(list, index) {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "请选择一个操作",
+        name: "action",
+        choices: [
+          { name: "退出", value: "quit" },
+          { name: "已完成", value: "done" },
+          { name: "未完成", value: "unDone" },
+          { name: "改标题", value: "updateTitle" },
+          { name: "删除", value: "remove" },
+        ],
+      },
+    ])
+    .then((answer) => {
+      // operate
+      switch (answer.action) {
+        case "done":
+          list[index].done = true;
+          db.write(list);
+          break;
+        case "unDone":
+          list[index].done = false;
+          db.write(list);
+          break;
+        case "updateTitle":
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                message: "输入新的标题：",
+                name: "title",
+                default: list[index].title,
+              },
+            ])
+            .then((answer) => {
+              list[index].title = answer.title;
+              db.write(list);
+            });
+          break;
+        case "remove":
+          list.splice(index, 1);
+          db.write(list);
+          break;
+        default:
+          break;
+      }
+    });
+}
+
+function printTask(list) {
   inquirer
     .prompt([
       {
@@ -52,59 +112,10 @@ module.exports.operate = async () => {
       },
     ])
     .then((answer) => {
-      console.log(answer);
       const index = parseInt(answer.index);
       if (index >= 0) {
-        inquirer
-          .prompt([
-            {
-              type: "list",
-              message: "请选择一个操作",
-              name: "action",
-              choices: [
-                { name: "退出", value: "quit" },
-                { name: "已完成", value: "done" },
-                { name: "未完成", value: "unDone" },
-                { name: "改标题", value: "updateTitle" },
-                { name: "删除", value: "remove" },
-              ],
-            },
-          ])
-          .then((answer) => {
-            console.log(answer);
-
-            switch (answer.action) {
-              case "done":
-                list[index].done = true;
-                db.write(list);
-                break;
-              case "unDone":
-                list[index].done = false;
-                db.write(list);
-                break;
-              case "updateTitle":
-                inquirer
-                  .prompt([
-                    {
-                      type: "input",
-                      message: "输入新的标题：",
-                      name: "title",
-                      default: list[index].title,
-                    },
-                  ])
-                  .then((answer) => {
-                    list[index].title = answer.title;
-                    db.write(list);
-                  });
-                break;
-              case "remove":
-                list.splice(index, 1);
-                db.write(list);
-                break;
-              default:
-                break;
-            }
-          });
+        // ask  operate
+        askOperate(list, index);
       }
 
       if (index === -2) {
@@ -113,7 +124,7 @@ module.exports.operate = async () => {
             {
               type: "input",
               message: "输入任务名称：",
-              name: "title"
+              name: "title",
             },
           ])
           .then((answer) => {
@@ -125,4 +136,4 @@ module.exports.operate = async () => {
           });
       }
     });
-};
+}
