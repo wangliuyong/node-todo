@@ -38,10 +38,8 @@ fs.writeFile = (path,data,option,callback)=> {
     callback = option
   }
   if(path in writeMocks){
-    console.log(1);
     writeMocks[path](path,data,option,callback)
   } else {
-    console.log(2);
     _fs.writeFile(path,data,option,callback)
   }
 }

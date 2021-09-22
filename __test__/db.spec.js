@@ -22,7 +22,6 @@ describe('db',() => {
     let writeFile
     fs.setWriteMock('/xx2',(path,data,option,callback) => {
       writeFile = data 
-      console.log(path,data,option,callback);
       callback(null)
     })
     const data = [{name:'222',name:'wang2'}]
