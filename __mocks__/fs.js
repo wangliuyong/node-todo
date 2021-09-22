@@ -8,11 +8,11 @@ const _fs = jest.requireActual('fs')
 // 将真正的fs生的属性复制到生成的fs上面
 Object.assign(fs, _fs)
 
-const mocks = {}
+const readMocks = {}
 
 // 添加方法
-fs.setMock = (path, error, data)=> {
-  mocks[path] = [error,data]
+fs.setReadMock = (path, error, data)=> {
+  readMocks[path] = [error,data]
 }
 
 fs.readFile = (path, options, callback) => {
@@ -20,8 +20,8 @@ fs.readFile = (path, options, callback) => {
     callback = options
   }
 
-  if(path in mocks){
-    callback(...mocks[path])
+  if(path in readMocks){
+    callback(...readMocks[path])
   } else {
     _fs.readFile(path, options, callback)
   }
