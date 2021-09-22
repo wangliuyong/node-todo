@@ -6,9 +6,9 @@ const fs =require('fs');
 jest.mock('fs');
 
 describe('db',() => {
-  // afterEach(() => {
-  //   fs.clearMock()
-  // })
+  afterEach(() => {
+    fs.clearMock()
+  })
   it('can read',async() => {
     // expect(fs.setMock instanceof Function).toBe(true);
     const data = [{title:'111',name:'wang1'}]
