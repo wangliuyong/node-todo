@@ -12,7 +12,7 @@ const dbPath = path.join(homePath, ".todo");
  */
 module.exports.read = (path = homePath) => {
   return new Promise((resolve, reject) => {
-    fs.readFile(dbPath, { flag: "a+" }, async (error, data) => {
+    fs.readFile(path, { flag: "a+" }, async (error, data) => {
       if (error) {
         return reject(error);
       } else {

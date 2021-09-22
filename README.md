@@ -23,3 +23,5 @@ chmod +x  cli.js
 · 交互式命令行美化工具：【inquirer】https://github.com/SBoudrias/Inquirer.js  
 
 · 交互式命令行美化工具用法：https://www.jianshu.com/p/0409cdf0e396
+
+# 单元测测试（不与外界联系，和请求无关）
