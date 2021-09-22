@@ -8,7 +8,7 @@ const _fs = jest.requireActual('fs')
 // 将真正的fs生的属性复制到生成的fs上面
 Object.assign(fs, _fs)
 
-const readMocks = {}
+let readMocks = {}
 
 // 添加方法
 fs.setReadMock = (path, error, data)=> {
@@ -25,6 +25,30 @@ fs.readFile = (path, options, callback) => {
   } else {
     _fs.readFile(path, options, callback)
   }
+}
+
+let writeMocks = {}
+
+fs.setWriteMock = (path, callback)=> {
+  writeMocks[path] = callback
+}
+
+fs.writeFile = (path,data,option,callback)=> {
+  if(!callback){
+    callback = option
+  }
+  if(path in writeMocks){
+    console.log(1);
+    writeMocks[path](path,data,option,callback)
+  } else {
+    console.log(2);
+    _fs.writeFile(path,data,option,callback)
+  }
+}
+// 清除mock的数据
+fs.clearMock = () => {
+  writeMocks = {}
+  readMocks = {}
 }
 
 module.exports = fs;
