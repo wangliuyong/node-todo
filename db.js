@@ -10,7 +10,7 @@ const dbPath = path.join(homePath, ".todo");
  * @param {homePath} path home的路径
  * @returns Promise
  */
-module.exports.read = (path = homePath) => {
+module.exports.read = (path = dbPath) => {
   return new Promise((resolve, reject) => {
     fs.readFile(path, { flag: "a+" }, async (error, data) => {
       if (error) {
@@ -34,7 +34,7 @@ module.exports.read = (path = homePath) => {
  * @param {homePath} path
  * @returns Promise
  */
-module.exports.write = (list, path = homePath) => {
+module.exports.write = (list, path = dbPath) => {
   return new Promise((resolve, reject) => {
     const strings = JSON.stringify(list);
     fs.writeFile(path, strings, (error) => {
